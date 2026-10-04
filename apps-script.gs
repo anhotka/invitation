@@ -8,10 +8,10 @@ function doPost(e) {
   let sheet = ss.getSheetByName(SHEET_NAME);
   if (!sheet) {
     sheet = ss.insertSheet(SHEET_NAME);
-    sheet.appendRow(['Дата', 'Имя и фамилия', 'Ответ', 'Гостей']);
+    sheet.appendRow(['Дата', 'Имя и фамилия', 'Ответ', 'Гостей', 'Комментарий']);
     sheet.setFrozenRows(1);
   }
   const p = e.parameter;
-  sheet.appendRow([new Date(), p.name || '', p.attendance || '', Number(p.guests) || 0]);
+  sheet.appendRow([new Date(), p.name || '', p.attendance || '', Number(p.guests) || 0, p.comment || '']);
   return ContentService.createTextOutput('ok');
 }
