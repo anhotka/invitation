@@ -165,6 +165,13 @@ input[type=text],select{
 }
 input[type=text]:focus,select:focus{outline:2px solid var(--gold);outline-offset:1px}
 select option{color:#111}
+textarea{
+  width:100%;padding:14px 16px;border-radius:10px;font:inherit;font-size:1rem;resize:vertical;min-height:84px;
+  color:var(--sand);background:rgba(7,9,24,.7);border:1px solid rgba(127,191,223,.35);
+}
+textarea:focus{outline:2px solid var(--gold);outline-offset:1px}
+textarea::placeholder,input::placeholder{color:rgba(232,226,208,.45)}
+.opt{text-transform:none;letter-spacing:0;opacity:.7}
 .choice{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .choice input{position:absolute;opacity:0}
 .choice label{
@@ -339,6 +346,10 @@ footer{color:var(--coral);text-shadow:0 0 18px rgba(224,128,106,.5)}
           <option>1</option><option>2</option><option>3</option><option>4</option>
         </select>
       </div>
+      <div class="field">
+        <label for="comment">Комментарий <span class="opt">(необязательно)</span></label>
+        <textarea id="comment" name="comment" rows="3" maxlength="200" placeholder="Например: приду только на регистрацию в ЗАГС"></textarea>
+      </div>
       <button class="btn" type="submit" id="send">Отправить</button>
       <div class="msg" id="msg" role="status"></div>
     </form>
@@ -361,7 +372,7 @@ footer{color:var(--coral);text-shadow:0 0 18px rgba(224,128,106,.5)}
 <script>
 /* ===== НАСТРОЙКИ ===== */
 // Вставьте сюда URL веб-приложения Google Apps Script (см. README.md)
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwTAqvxnFlH5kj5MsoR6j6gRzFhGzrCcFJgm5m9Z9t6mZXYtO66gu0iNIWHgnHNM7wV/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyxO8pQkqHQCtFvxHW-O-Qui2Mvu9tnJ5j-TIz_KUcngBlVOxtwTP6tPmZmjMKPJjKl/exec';
 // Дата и время церемонии (местное время Перми, UTC+5)
 const WEDDING = new Date('2026-11-13T10:00:00+05:00');
 
@@ -447,7 +458,8 @@ const WEDDING = new Date('2026-11-13T10:00:00+05:00');
     const data = new URLSearchParams({
       name,
       attendance: form.attendance.value,
-      guests: coming ? form.guests.value : '0'
+      guests: coming ? form.guests.value : '0',
+      comment: form.comment.value.trim().slice(0,200)
     });
     if(!SCRIPT_URL){
       msg.className='msg err';
